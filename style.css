@@ -1,0 +1,525 @@
+/* ==========================================================
+   佐藤 博紀 プロフィールページ
+   白ベース × 紫メイン（ダークモードには切り替えない）
+
+   【Tailwind CSS との役割分担】
+   - Tailwind（index.html の class）：文字サイズ・太さ・字間・行間、
+     余白、セクション間隔、グリッドの列数、スマートフォン対応
+   - style.css（このファイル）：色、グラデーション、フォント、
+     角の丸み、線・枠、写真の切り抜き、図やイラストの装飾
+   ※ このファイルの指定は Tailwind のクラスより優先されるため、
+     Tailwind に任せた項目はここに書かない（書くと競合する）
+   ========================================================== */
+
+/* ---------- 色・フォントの設定 ---------- */
+:root {
+  --bg: #FFFFFF;
+  --text: #1F1830;
+  --muted: #6A6380;
+  --line: #E6E0F0;
+  --purple: #5B2EA6;
+  --purple-dark: #3A1A72;
+  --purple-pale: #F4EFFB;
+  --gradient: linear-gradient(140deg, #3A1A72 0%, #5B2EA6 55%, #7A48C4 100%);
+
+  --font-mincho: "Shippori Mincho B1", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-gothic: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-en: "Cormorant Garamond", "Times New Roman", serif;
+
+  color-scheme: light;
+}
+
+/* ---------- 基本 ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-gothic);
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  font-variant-numeric: lining-nums;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: none;
+}
+
+.num {
+  font-family: var(--font-en);
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0;
+}
+
+/* ---------- 見出し（英字の斜体 + 短い横線） ---------- */
+.section__en {
+  font-family: var(--font-en);
+  font-style: italic;
+  color: var(--purple);
+}
+
+.section__en::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: currentColor;
+}
+
+.section__en--light {
+  color: #FFFFFF;
+}
+
+.section__title {
+  font-family: var(--font-mincho);
+}
+
+/* ---------- ボタン ---------- */
+.btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-gothic);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 3px;
+}
+
+.btn--primary {
+  background: var(--purple);
+  color: #FFFFFF;
+}
+
+.btn--primary:hover {
+  background: var(--purple-dark);
+}
+
+.btn--light {
+  background: #FFFFFF;
+  color: var(--purple-dark);
+}
+
+.btn--light:hover {
+  background: var(--purple-pale);
+}
+
+.btn--light:focus-visible {
+  outline-color: #FFFFFF;
+}
+
+/* ==========================================================
+   1. トップ
+   ========================================================== */
+
+/* 写真の右下に少しずらして重ねる紫のブロック */
+.hero__photo {
+  position: relative;
+}
+
+.hero__photo::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 0;
+  bottom: -20px;
+  border-radius: 14px 72px 14px 14px;
+  background: var(--gradient);
+}
+
+/* 縦長 4:5、右上の角を大きく丸める */
+.hero__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 14px 72px 14px 14px;
+  background: #EDE7E0;
+}
+
+/* パソコン表示（781px以上）では紫のブロックのずれと角の丸みを大きくする */
+@media (min-width: 781px) {
+  .hero__photo::before {
+    top: 28px;
+    left: 28px;
+    right: -28px;
+    bottom: -28px;
+    border-radius: 16px 96px 16px 16px;
+  }
+
+  .hero__frame {
+    border-radius: 16px 96px 16px 16px;
+  }
+}
+
+/* 元画像（567×673）の下の白い余白と左上の白い角を隠すため、
+   写真部分（上14px〜下616px）だけが枠に収まるよう拡大・配置する */
+.hero__frame img {
+  position: absolute;
+  top: -2.33%;
+  left: 50%;
+  height: 111.8%;
+  width: auto;
+  transform: translateX(-50%);
+}
+
+.hero__en {
+  font-family: var(--font-en);
+  color: var(--purple);
+}
+
+.hero__name {
+  font-family: var(--font-mincho);
+}
+
+.hero__role {
+  color: var(--muted);
+}
+
+.hero__catch {
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mincho);
+  color: var(--purple-dark);
+}
+
+.tag {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--purple);
+  background: #FFFFFF;
+}
+
+.tag--main {
+  border-color: var(--purple);
+  background: var(--purple);
+  color: #FFFFFF;
+}
+
+/* ==========================================================
+   2. 実績
+   ========================================================== */
+.results {
+  border-radius: 20px;
+  background: var(--gradient);
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.result__icon {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.result__label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.unit {
+  font-family: var(--font-mincho);
+}
+
+.result__desc {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ==========================================================
+   3. サービス
+   ========================================================== */
+.service-main {
+  border: 1px solid var(--purple);
+  border-radius: 20px;
+  background: var(--purple-pale);
+}
+
+.service__en {
+  font-family: var(--font-en);
+  font-style: italic;
+  color: var(--purple);
+}
+
+.service-main__title {
+  font-family: var(--font-mincho);
+  color: var(--purple-dark);
+}
+
+/* チェックマーク */
+.checklist li {
+  position: relative;
+}
+
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--purple);
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.checklist li::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  width: 6px;
+  height: 9px;
+  border-right: 1.5px solid var(--purple);
+  border-bottom: 1.5px solid var(--purple);
+  transform: rotate(45deg);
+}
+
+/* 手作業 2時間 → AI → 効率化 20分 の図 */
+.flow {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #FFFFFF;
+}
+
+.flow__step {
+  border: 1px solid var(--purple);
+  border-radius: 14px;
+  color: var(--purple-dark);
+  background: #FFFFFF;
+}
+
+.flow__step--done {
+  background: var(--purple);
+  color: #FFFFFF;
+}
+
+.flow__time {
+  font-family: var(--font-mincho);
+}
+
+.flow__ai {
+  border: 1px dashed var(--purple);
+  border-radius: 50%;
+  color: var(--purple);
+  font-family: var(--font-en);
+}
+
+.flow__ai svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.flow__arrow {
+  position: relative;
+  background: var(--purple);
+}
+
+.flow__arrow::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--purple);
+  border-right: 1px solid var(--purple);
+  transform: rotate(45deg);
+}
+
+/* そのほかのサービス */
+.service {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #FFFFFF;
+}
+
+.service__icon {
+  fill: none;
+  stroke: var(--purple);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.service__title {
+  font-family: var(--font-mincho);
+}
+
+.service__desc {
+  color: var(--muted);
+}
+
+/* ==========================================================
+   4. 経歴
+   ========================================================== */
+.career__number {
+  color: var(--purple);
+}
+
+.career__unit {
+  font-family: var(--font-mincho);
+}
+
+.career__caption {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+/* 縦線 */
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: var(--line);
+}
+
+/* 丸印（現在の項目だけ塗りつぶし） */
+.timeline__item {
+  position: relative;
+}
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 8px;
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--purple);
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.timeline__item--now::before {
+  background: var(--purple);
+}
+
+.timeline__title {
+  font-family: var(--font-mincho);
+}
+
+.timeline__item--now .timeline__title {
+  color: var(--purple);
+}
+
+.timeline__desc {
+  color: var(--muted);
+}
+
+/* ==========================================================
+   5. 人となり
+   ========================================================== */
+.card {
+  border-radius: 16px;
+  background: var(--purple-pale);
+}
+
+.card__art {
+  border-radius: 12px;
+  background: #FFFFFF;
+}
+
+.art-line {
+  fill: none;
+  stroke: var(--purple);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-dash {
+  fill: none;
+  stroke: var(--purple);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+}
+
+.art-dot {
+  fill: #FFFFFF;
+  stroke: var(--purple);
+  stroke-width: 1.6;
+}
+
+.art-dot--fill {
+  fill: var(--purple);
+}
+
+.art-text {
+  font-family: var(--font-gothic);
+  font-size: 11px;
+  fill: var(--muted);
+}
+
+.art-text--strong {
+  font-weight: 700;
+  fill: var(--purple);
+}
+
+.card__label {
+  color: var(--purple);
+}
+
+.card__main {
+  font-family: var(--font-mincho);
+}
+
+.card__sub {
+  color: var(--muted);
+}
+
+/* ==========================================================
+   6. 連絡先
+   ========================================================== */
+.contact {
+  border-radius: 20px;
+  background: var(--gradient);
+  color: #FFFFFF;
+}
+
+.contact__title {
+  font-family: var(--font-mincho);
+}
+
+.contact__text {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contact__icon {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.contact__address {
+  font-family: var(--font-en);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.contact__address:hover {
+  border-bottom-color: #FFFFFF;
+}
