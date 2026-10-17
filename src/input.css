@@ -1,0 +1,27 @@
+/* ==========================================================
+   Tailwind CSS のビルド元ファイル
+   `npm run build` で ../tailwind.css（本番用・圧縮済み）を生成する
+   ※ index.html のクラスを変更したら、必ず再ビルドすること
+   ========================================================== */
+
+/* クラスを探す対象は index.html のみ（Myprofile.md などは対象外） */
+@import "tailwindcss" source(none);
+@source "../index.html";
+
+@theme {
+  /* 要件定義書 4.6：780px以下は1列 → 781px以上を「md:」（パソコン表示）にする */
+  --breakpoint-md: 48.8125rem;
+
+  /* 要件定義書 4.2 の色（text-brand / bg-brand-pale などのクラスで使える） */
+  --color-ink: #1F1830;
+  --color-muted: #6A6380;
+  --color-line: #E6E0F0;
+  --color-brand: #5B2EA6;
+  --color-brand-dark: #3A1A72;
+  --color-brand-pale: #F4EFFB;
+
+  /* 要件定義書 4.3 のフォント（font-mincho / font-gothic / font-en のクラスで使える） */
+  --font-mincho: "Shippori Mincho B1", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-gothic: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-en: "Cormorant Garamond", "Times New Roman", serif;
+}
